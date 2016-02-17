@@ -1,0 +1,16 @@
+sudo: required
+
+language: c
+
+services:
+  - docker
+
+before_install:
+  - docker info
+  - docker build -t soem/archlinux:ci .
+  - docker build -t soem/archlinux:ci-onbuild ONBUILD/
+
+script:
+  - docker run -it --rm soem/archlinux:ci pacman -Syy
+  - docker run -it --rm soem/archlinux:ci-onbuild pacman -Syy
+
